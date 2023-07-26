@@ -100,7 +100,7 @@ const Todo = () => {
 			<a href="https://www.instagram.com/_aakashsaini/" target="_blank"><i className="fab fa-instagram"></i></a>
 			<a href="https://www.linkedin.com/in/-aakashsaini" target="_blank"><i className="fab fa-linkedin"></i></a>
 		</div>
-		<p className="end">Developer &#169; By Aakash saini</p>
+		<p className="end">Developed &#169; By Aakash saini</p>
 	</footer>
     </>
   )
