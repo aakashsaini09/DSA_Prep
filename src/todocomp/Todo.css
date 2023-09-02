@@ -235,11 +235,13 @@ input:focus {
   -webkit-transform: translateY(0) scale(1, 1);
   transform: translateY(0) scale(1, 1);
 }
-
-
-
-
-
+@media screen and (max-width: 800px)
+{
+    .add-btn{
+        position: relative;
+        right: 30px;
+    }
+}
 footer {
 	position: relative;
 	width: 100%;
