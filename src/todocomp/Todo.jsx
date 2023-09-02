@@ -95,8 +95,8 @@ const Todo = () => {
       </div>
       <footer>
 		<div className="social">
-			<a  href="tel:9485858534" target="_blank"><i
-					className="fab fa-whatsapp"></i></a>
+			<a  href="https://github.com/aakashsaini09" target="_blank"><i
+					className="fab fa-github"></i></a>
 			<a href="https://www.instagram.com/_aakashsaini/" target="_blank"><i className="fab fa-instagram"></i></a>
 			<a href="https://www.linkedin.com/in/-aakashsaini" target="_blank"><i className="fab fa-linkedin"></i></a>
 		</div>
