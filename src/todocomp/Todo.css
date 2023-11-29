@@ -10,6 +10,28 @@ i{
 } */
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300&display=swap");
 
+@media screen and (max-width: 800px)
+{
+
+  *{
+    overflow: hidden;
+  }
+  .main-div{
+    width: 100vw;
+    height: 85vh !important;
+  }
+    .add-btn{
+        position: relative;
+        right: 22px;
+    }
+    footer{
+      width: 100vw !important;
+      height: 10vh !important;
+    }
+    /* .fa-trash-alt{
+      padding: 0 0 0 1px;
+    } */
+}
 * {
   margin: 0;
   padding: 0;
@@ -22,7 +44,7 @@ html {
 }
 
 .main-div {
-  min-height: 87vh;
+  min-height: 100vh;
   background: #060822;
   display: flex;
   justify-content: center;
@@ -235,13 +257,7 @@ input:focus {
   -webkit-transform: translateY(0) scale(1, 1);
   transform: translateY(0) scale(1, 1);
 }
-@media screen and (max-width: 800px)
-{
-    .add-btn{
-        position: relative;
-        right: 30px;
-    }
-}
+
 footer {
 	position: relative;
 	width: 100%;
