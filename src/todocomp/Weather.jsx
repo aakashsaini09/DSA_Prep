@@ -6,9 +6,9 @@ const [weatherCondition, setweatherCondition] = useState("normal")
     <>
       <div className='container'>
         <div className='weather'>
-          <div className='top-section'><i className={'wi-day-rain'}></i></div>
+          <div className='top-section'><i className='wi-day-rain'></i></div>
           <div className='middle-section'>
-            <div className='cloud'><i className={"wi wi-sunset"}></i>&#8451;<br/></div><span className='countryname'>,</span> 
+            <div className='cloud'><i className="wi wi-sunset"></i>&#8451;<br/></div><span className='countryname'>,</span> 
             <div className='time'>{new Date().toLocaleDateString()}<br/></div>
           </div>
           <div className='bottom-section'>
