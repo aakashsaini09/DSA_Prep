@@ -1,7 +1,7 @@
 import java.util.*;
 class Date
 {
-    public static void main(String args[])
+    public static void main(String[] args)
     {
         int day, month, year;
         int second, minute, hour;
