@@ -1,11 +1,11 @@
 import { Button } from '@/components/ui/button'
-import { Link } from 'lucide-react'
+import Link from 'next/link'
 import React from 'react'
 
 const page = () => {
   return (
     <>
-      <div className='min-h-[100vh] min-w-[100vw] bg-black'>
+      <div className='min-h-[100vh] min-w-[100vw] bg-black flex justify-center items-center'>
         <div className="flex justify-center">
           <div className="w-96 backdrop-blur-lg bg-opacity-80 rounded-lg shadow-lg p-5 bg-gray-900 text-white">
             <h2 className="text-2xl font-bold pb-5">Sign In</h2>
@@ -22,7 +22,7 @@ const page = () => {
                 <button type="submit" className="text-white bg-purple-600 hover:bg-purple-700 focus:ring-2 focus:ring-blue-300 font-medium rounded-lg text-sm py-2.5 px-5 w-full sm:w-auto" > Submit </button>
                 <div className="flex items-center text-sm">
                   <p>New here?</p>
-                  <p className="underline cursor-pointer ml-1">Register</p>
+                  <Link href='/signup' className="underline cursor-pointer ml-1 hover:text-blue-500">Register</Link>
                 </div>
               </div>
             </form>
