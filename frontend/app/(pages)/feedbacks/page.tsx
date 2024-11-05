@@ -56,7 +56,10 @@ const page = () => {
         <div className="feedbacks grid grid-cols-2 px-40">
             {userdata.map((feed, index) => {
                 return <div key={index} className="border border-gray-700 mx-4 my-5 min-h-48 rounded-md flex flex-col justify-center pl-5">
-                    <div className="title text-white text-3xl font-semibold mb-6">{feed.title}</div>
+                    <div className='flex justify-between'>
+                        <div className="title text-white text-3xl font-semibold mb-6">{feed.title}</div>
+                        <Button variant={'destructive'} className='text-white mr-3'>X</Button>
+                    </div>
                     <div className="time font-normal text-gray-400">{feed.time}</div>
                 </div>
             })}
