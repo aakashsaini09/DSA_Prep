@@ -2,22 +2,31 @@ import { MongoClient } from "mongodb";
 import mongoose from "mongoose";
 import bcrypt from 'bcrypt'
 const client = new MongoClient("mongodb+srv://aakashsaini948585:jXYSp8aOVcuYZoEB@cluster0.abmbj.mongodb.net/")
-const myPlainText = 'verysecretcode'
+const myPlainText = 'verysecretcodee'
 
 
 
 
 export const signUp = async(req, res) => {
-    console.log("req.body is: ", req.body)
     const {name, email, password} = req.body;
     await client.connect()
     const database = client.db('feedbacks')
     const users = database.collection('users');
     const saltRounds = 10;
+    const user = await users.findOne({email: email});
     bcrypt.genSalt(saltRounds, function(err, salt){
         bcrypt.hash(password, salt, function(err, hash){
             try {
-                users.insertOne({name: name, email: email, password: hash});
+                if(!user){
+                    users.insertOne({name: name, email: email, password: hash});
+                    return res.json({
+                        message: "Sign-up done"
+                    })
+                }else{
+                    return res.json({
+                        message: "User already exist with this gmail"
+                    })
+                }
             } catch (err) {
                 return res.json({
                         message: 'server error'
