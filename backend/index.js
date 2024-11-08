@@ -1,11 +1,13 @@
 import express from 'express'
 import { loginUser, signUp } from './src/routes/auth.js';
 import dotenv from 'dotenv'
+import cors from 'cors'
 import bodyParser from 'body-parser';
 const app = express()
 app.use(bodyParser.json())
 const PORT = 4000;
 dotenv.config()
+app.use(cors())
 
 app.post('/api/auth/login', loginUser)
 app.post('/api/auth/signup', signUp)
