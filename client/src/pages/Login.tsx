@@ -1,16 +1,28 @@
+import { useToast } from '@/hooks/use-toast'
 import axios from 'axios'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-
+import { Link, useNavigate } from 'react-router-dom'
 const Login = () => {
+    const {toast} = useToast()
+    const navigate = useNavigate()
   const [userData, setuserData] = useState({
     email: '',
     password: ''
   })
   const loginfunction = async(e: any) => {
     e.preventDefault()
-    const res = await axios.post('http://localhost:4000/api/auth/login', {email: userData.email, password: userData.password})
-    console.log("res is: ", res)
+    try {    
+        const res = await axios.post('http://localhost:4000/api/auth/login', {email: userData.email, password: userData.password})
+        if (res.data.success) {
+            const jwt = res.data.token;
+            localStorage.setItem("token", jwt)
+            navigate('/feedback');
+        } else {
+            toast({ variant: 'destructive', description: res.data.message });
+        }
+    } catch (err) {
+        console.log(err)
+    }
   }
   return (
     <>

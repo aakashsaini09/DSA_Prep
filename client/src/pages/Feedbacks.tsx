@@ -5,8 +5,11 @@ import { Label } from "@/components/ui/label"
 import { FiRefreshCw } from "react-icons/fi";
 import { FaCopy } from "react-icons/fa";
 import { useToast } from "@/hooks/use-toast"
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 const Feedbacks = () => {
     const {toast} = useToast()
+    const navigate= useNavigate()
     const userdata = [
         {
             title: 'Your outfit was amazing today.',
@@ -29,6 +32,11 @@ const Feedbacks = () => {
             time: 'Feb 12, 2003 02:44 PM'
         },
     ]
+    useEffect(() => {
+        if (!localStorage.getItem('token')) {
+            navigate('/');
+        }
+    }, [navigate]);
     const copyFunction = () =>{
         let value = 'https://yoururl-1de6d-242.com';
         navigator.clipboard.writeText(value);

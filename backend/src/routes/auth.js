@@ -59,15 +59,16 @@ export const loginUser = async(req, res) => {
             })
         }
         const comparePassword = await bcrypt.compare(password, user.password)
-        if(!comparePassword){
+        if (!comparePassword) {
             return res.json({
                 message: 'Incorrect Password. Please try again.'
-            })
+            });
         }
         const token = jwt.sign(
             { userId: user._id, email: user.email }, myPlainText);
         return res.json({
             message: "User exist",
+            success: true,
             token: token,
             user: user
         })
