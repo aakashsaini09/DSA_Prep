@@ -1,10 +1,17 @@
 import { useToast } from '@/hooks/use-toast'
+import { UserEmail, UserName } from '@/store/user'
 import axios from 'axios'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
+
 const Login = () => {
     const {toast} = useToast()
     const navigate = useNavigate()
+    // @ts-ignore
+    const [recoilUser, setRecoilUser] = useRecoilState(UserName)
+    // @ts-ignore
+    const [recoilEmail, setRecoilEmail] = useRecoilState(UserEmail)
   const [userData, setuserData] = useState({
     email: '',
     password: ''
@@ -16,6 +23,8 @@ const Login = () => {
         if (res.data.success) {
             const jwt = res.data.token;
             localStorage.setItem("token", jwt)
+            setRecoilUser(res.data.user.name)
+            setRecoilEmail(res.data.user.email)
             navigate('/feedback');
         } else {
             toast({ variant: 'destructive', description: res.data.message });

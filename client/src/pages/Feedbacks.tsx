@@ -7,7 +7,10 @@ import { FaCopy } from "react-icons/fa";
 import { useToast } from "@/hooks/use-toast"
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UserName } from '@/store/user';
+import { useRecoilValue } from 'recoil';
 const Feedbacks = () => {
+    const name = useRecoilValue(UserName)
     const {toast} = useToast()
     const navigate= useNavigate()
     const userdata = [
@@ -37,6 +40,7 @@ const Feedbacks = () => {
             navigate('/');
         }
     }, [navigate]);
+
     const copyFunction = () =>{
         let value = 'https://yoururl-1de6d-242.com';
         navigator.clipboard.writeText(value);
@@ -48,7 +52,7 @@ const Feedbacks = () => {
         <nav className='w-[100vw]'>
             <ul className='w-[100vw] py-5 bg-gray-600 flex justify-between items-center px-8'>
             <li className='text-4xl font-bold text-white'>Logo</li>
-                <li className='text-xl font-bold text-gray-200'>Welcome Aakash Saini</li>
+                <li className='text-xl font-bold text-gray-200'>Welcome {!name ? 'User' : name}</li>
                 <Button variant={'secondary'}>Logout</Button>
             </ul>
         </nav>
