@@ -1,3 +1,4 @@
+import Loading from '@/components/Loading'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
 import axios from 'axios'
@@ -5,33 +6,35 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 const Landing = () => {
   const {toast} = useToast()
+  const [loading, setloading] = useState(false)
   const [users, setusers] = useState(Number)
   const getAllusers = async() => {
+    setloading(true)
     try {    
         const res = await axios.get('http://localhost:4000/api/auth/getall')
         if (res.data.success) {
           setusers(res.data.users.length)
           console.log(res.data.users.length)
+          setloading(false)
         } else {
-            toast({ variant: 'destructive', description: res.data.message });
+          toast({ variant: 'destructive', description: res.data.message });
+          setloading(false)
         }
-    } catch (err) {
+      } catch (err) {
         console.log(err)
+        setloading(false)
     }
   }
   useEffect(() => {
     getAllusers()
   }, [])
-  if(!users){
-    return (
-      <div className='min-w-[100vw] min-h-[100vh] bg-black text-white text-6xl font-bold text-center flex justify-center'>Loading...</div>
-    )
-  }
+ 
   return (
     <>
+    {loading && <div className="min-h-[100vh] min-w-[100vw] absolute z-10 bg-gray-900 text-white"><Loading/></div>}
       <div className="min-h-[100vh] w-full bg-black flex flex-col items-center justify-center gap-6 overflow-hidden">
         <nav>
-            <ul className='flex w-[100vw] justify-between px-28'>
+            <ul className='flex w-[100vw] justify-between px-28 pt-7'>
                 <li className='text-5xl font-bold text-white'>Logo</li>
                 <Button asChild variant={'secondary'}>
                     <Link to={'/login'} className='cursor-pointer'>Login/Sign-up</Link>

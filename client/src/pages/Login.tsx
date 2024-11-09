@@ -1,3 +1,4 @@
+import Loading from '@/components/Loading'
 import { useToast } from '@/hooks/use-toast'
 import { UserEmail, UserName } from '@/store/user'
 import axios from 'axios'
@@ -8,6 +9,7 @@ import { useRecoilState } from 'recoil'
 const Login = () => {
     const {toast} = useToast()
     const navigate = useNavigate()
+    const [loading, setloading] = useState(false)
     // @ts-ignore
     const [recoilUser, setRecoilUser] = useRecoilState(UserName)
     // @ts-ignore
@@ -18,6 +20,7 @@ const Login = () => {
   })
   const loginfunction = async(e: any) => {
     e.preventDefault()
+    setloading(true)
     try {    
         const res = await axios.post('http://localhost:4000/api/auth/login', {email: userData.email, password: userData.password})
         if (res.data.success) {
@@ -26,15 +29,19 @@ const Login = () => {
             setRecoilUser(res.data.user.name)
             setRecoilEmail(res.data.user.email)
             navigate('/feedback');
-        } else {
+            setloading(false)
+          } else {
             toast({ variant: 'destructive', description: res.data.message });
-        }
-    } catch (err) {
-        console.log(err)
+            setloading(false)
+          }
+        } catch (err) {
+          console.log(err)
+          setloading(false)
     }
   }
   return (
     <>
+    {loading && <div className="min-h-[100vh] min-w-[100vw] absolute z-10 bg-gray-900 text-white"><Loading/></div>}
       <div className='min-h-[100vh] min-w-[100vw] bg-black flex justify-center items-center'>
         <div className="flex justify-center">
           <div className="w-96 backdrop-blur-lg bg-opacity-80 rounded-lg shadow-lg p-5 bg-gray-900 text-white">
