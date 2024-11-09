@@ -5,43 +5,76 @@ import { Label } from "@/components/ui/label"
 import { FiRefreshCw } from "react-icons/fi";
 import { FaCopy } from "react-icons/fa";
 import { useToast } from "@/hooks/use-toast"
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserName } from '@/store/user';
 import { useRecoilValue } from 'recoil';
+import axios from 'axios';
+import Loading from '@/components/Loading';
 const Feedbacks = () => {
     const name = useRecoilValue(UserName)
     const {toast} = useToast()
     const navigate= useNavigate()
-    const userdata = [
-        {
-            title: 'Your outfit was amazing today.',
-            time: 'Jan 22, 2003 02:44 PM'
-        },
-        {
-            title: 'Your outfit was amazing today.',
-            time: 'Oct 22, 2003 02:44 PM'
-        },
-        {
-            title: 'Your outfit was amazing today.',
-            time: 'Jun 22, 2003 02:44 PM'
-        },
-        {
-            title: 'Your outfit was amazing today.',
-            time: 'Dec 22, 2003 02:44 PM'
-        },
-        {
-            title: 'Your outfit was amazing today.',
-            time: 'Feb 12, 2003 02:44 PM'
-        },
-    ]
+    const [loading, setloading] = useState(false)
+    // const userdata = [
+    //     {
+    //         title: 'Your outfit was amazing today.',
+    //         time: 'Jan 22, 2003 02:44 PM'
+    //     },
+    //     {
+    //         title: 'Your outfit was amazing today.',
+    //         time: 'Oct 22, 2003 02:44 PM'
+    //     },
+    //     {
+    //         title: 'Your outfit was amazing today.',
+    //         time: 'Jun 22, 2003 02:44 PM'
+    //     },
+    //     {
+    //         title: 'Your outfit was amazing today.',
+    //         time: 'Dec 22, 2003 02:44 PM'
+    //     },
+    //     {
+    //         title: 'Your outfit was amazing today.',
+    //         time: 'Feb 12, 2003 02:44 PM'
+    //     },
+    // ]
+    const [userdata, setuserdata] = useState<any>([])
     useEffect(() => {
         if (!localStorage.getItem('token')) {
             navigate('/');
         }
     }, [navigate]);
+    const getUserFeeds = async() => {
+        setloading(true)
+        const token = localStorage.getItem('token')
+        try {    
+            const res = await axios.post('http://localhost:4000/api/user/getuserfeed', { id: localStorage.getItem('id') }, 
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
+            if (res.data.success) {
+                setuserdata(res.data.feeds)
+                console.log("userdata is: ", userdata)
+                // console.log(res.data.feeds)
+                setloading(false)
+              } else {
+                toast({ variant: 'destructive', description: res.data.message });
+                setloading(false)
+              }
+            } catch (err) {
+              console.log(err)
+              setloading(false)
+        }
+      }
+    useEffect(() => {
+        getUserFeeds()
+    }, [])
+    
     const logOut = () => {
         localStorage.removeItem('token')
+        localStorage.removeItem('id')
         navigate('/')
     }
 
@@ -50,8 +83,43 @@ const Feedbacks = () => {
         navigator.clipboard.writeText(value);
         toast({description: "URL copied!!" })
     }
+    // /api/user/deleteuserfeed
+    const deleteFeed = async(id: string) => {
+      setloading(true)
+        const token = localStorage.getItem('token')
+        try {    
+            const res = await axios.delete('http://localhost:4000/api/user/deleteuserfeed',  
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                id: id
+              },
+            })
+            if (res.data.success) {
+              alert('deleted!!')
+              setloading(false)
+              toast({ variant: 'default', description: 'Message Deleted Successfully!'})
+            } else {
+                toast({ variant: 'destructive', description: res.data.message });
+                setloading(false)
+              }
+            } catch (err) {
+              console.log(err)
+              setloading(false)
+        }
+    }
+    const formatDate = (dateString: string) => {
+      const date = new Date(dateString);
+      const day = date.getDate();
+      const month = date.toLocaleString("en-GB", { month: "short" });
+      const year = date.getFullYear();
+  
+      return `${day} ${month}, ${year}`;
+  };
   return (
     <>
+     {loading && <div className="min-h-[100vh] min-w-[100vw] absolute z-10 bg-gray-900 text-white"><Loading/></div>}
+    
       <div className="min-h-[100vh] max-w-[100vw] bg-black overflow-hidden">
         <nav className='w-[100vw]'>
             <ul className='w-[100vw] py-5 bg-gray-600 flex justify-between items-center px-8'>
@@ -78,13 +146,13 @@ const Feedbacks = () => {
             </div>
         </div>
         <div className="feedbacks grid grid-cols-2 px-40">
-            {userdata.map((feed, index) => {
-                return <div key={index} className="border border-gray-700 mx-4 my-5 min-h-48 rounded-md flex flex-col justify-center pl-5">
+            {userdata.map((feed: any) => {
+                return <div key={feed._id} className="border border-gray-700 mx-4 my-5 min-h-48 rounded-md flex flex-col justify-center pl-5">
                     <div className='flex justify-between'>
                         <div className="title text-white text-3xl font-semibold mb-6">{feed.title}</div>
-                        <Button variant={'destructive'} className='text-white mr-3'>X</Button>
+                        <Button variant={'destructive'} className='text-white mr-3' onClick={() => deleteFeed(feed._id)}>X</Button>
                     </div>
-                    <div className="time font-normal text-gray-400">{feed.time}</div>
+                    <div className="time font-normal text-gray-400">{formatDate(feed.createdAt)}</div>
                 </div>
             })}
         </div>

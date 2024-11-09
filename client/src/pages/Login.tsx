@@ -28,8 +28,11 @@ const Login = () => {
             localStorage.setItem("token", jwt)
             setRecoilUser(res.data.user.name)
             setRecoilEmail(res.data.user.email)
+            const id = res.data.user._id
+            localStorage.setItem("id", id)
             navigate('/feedback');
             setloading(false)
+
           } else {
             toast({ variant: 'destructive', description: res.data.message });
             setloading(false)

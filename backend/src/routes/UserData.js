@@ -1,8 +1,9 @@
 import { MongoClient } from "mongodb";
 
+import { ObjectId } from "mongodb";
 const client = new MongoClient("mongodb+srv://aakashsaini948585:jXYSp8aOVcuYZoEB@cluster0.abmbj.mongodb.net/")
 
-// ************************************Get all feeds *************************************************
+// ************************************ Add new feed *************************************************
 export const addNewFeed = async(req, res) => {
     const { title, des, id} = req.body;
         await client.connect();
@@ -12,13 +13,14 @@ export const addNewFeed = async(req, res) => {
             const userFeeds = await feeds.insertOne({ 
                 autherId: id,
                 title: title,
-                des: des
+                createdAt: new Date() 
             })
             if (!userFeeds) {
                 return res.json({ message: 'Server Error. Something went wrong!', success: false});
             }
             return res.json({
                 message: 'feeds added successfully',
+                success: true,
                 feeds: userFeeds
             })
         }catch (error) {
@@ -31,7 +33,7 @@ export const addNewFeed = async(req, res) => {
 
 
 
-// ************************************Get all feeds *************************************************
+// ************************************Get all feeds of one user *************************************************
 export const getUserFeedbacks = async(req, res) => {
     const {id} = req.body
     try {
@@ -52,6 +54,7 @@ export const getUserFeedbacks = async(req, res) => {
 
 
 
+// ************************************Get all users *************************************************
 export const getAllUsers = async(req, res) => {
     await client.connect()
     const database = client.db('feedbacks')
@@ -74,5 +77,24 @@ export const getAllUsers = async(req, res) => {
         return res.json({
                 message: 'server error'
             }, {status: 404})
+    }
+}
+
+
+
+// ************************************delete one feed*************************************************
+export const deleteUsersFeed = async(req, res) => {
+    const id = req.headers['id'];
+    try {
+        await client.connect();
+        const database = client.db('feedbacks');
+        const feeds = database.collection('feedback');
+        await feeds.findOneAndDelete({ _id: new ObjectId(id)})
+        return res.json({
+            message: 'feed deleted successfully',
+            success: true
+        })
+    } catch (error) {
+        return res.json({ message: 'Server Error. Something went wrong!', success: false, error: error });
     }
 }

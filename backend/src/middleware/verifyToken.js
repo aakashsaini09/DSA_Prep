@@ -3,7 +3,8 @@ import jwt from 'jsonwebtoken'
 const mySecretText = 'verysecretcodee'
 export const verifyUser = async(req, res, next) => {
     const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]; 
+    const token = authHeader && authHeader.split(' ')[1];
+    // console.log("Header is: ", req.headers) 
     if (!token) {
         return res.status(401).json({ message: 'Access denied. No token provided.'});
     }
