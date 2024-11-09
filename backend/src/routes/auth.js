@@ -2,7 +2,7 @@ import { MongoClient } from "mongodb";
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 const client = new MongoClient("mongodb+srv://aakashsaini948585:jXYSp8aOVcuYZoEB@cluster0.abmbj.mongodb.net/")
-const myPlainText = 'verysecretcodee'
+const mySecretText = 'verysecretcodee'
 
 export const signUp = async (req, res) => {
     const { name, email, password } = req.body;
@@ -28,7 +28,7 @@ export const signUp = async (req, res) => {
         const newUser = await users.insertOne({ name: name, email: email, password: hash });
 
         // Generate JWT token
-        const token = jwt.sign({ userId: email }, 'your_secret_key'); // Replace 'your_secret_key' with an environment variable
+        const token = jwt.sign({ userId: email }, mySecretText); 
 
         // Send success response with token
         return res.json({
@@ -40,7 +40,8 @@ export const signUp = async (req, res) => {
     } catch (err) {
         console.error(err);
         return res.json({
-            message: 'Server error'
+            message: 'Server error',
+            error: err
         });
     }
 };
@@ -67,7 +68,7 @@ export const loginUser = async(req, res) => {
             });
         }
         const token = jwt.sign(
-            { userId: user._id, email: user.email }, myPlainText);
+            { userId: user._id, email: user.email }, mySecretText);
         return res.json({
             message: "User exist",
             success: true,
