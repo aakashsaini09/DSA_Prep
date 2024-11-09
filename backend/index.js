@@ -3,6 +3,7 @@ import { loginUser, signUp } from './src/routes/auth.js';
 import dotenv from 'dotenv'
 import cors from 'cors'
 import bodyParser from 'body-parser';
+import { getAllUsers } from './src/routes/AllUsers.js';
 const app = express()
 app.use(bodyParser.json())
 const PORT = 4000;
@@ -11,6 +12,7 @@ app.use(cors())
 
 app.post('/api/auth/login', loginUser)
 app.post('/api/auth/signup', signUp)
+app.get('/api/auth/getall', getAllUsers)
 
 
 app.listen(PORT, () => {

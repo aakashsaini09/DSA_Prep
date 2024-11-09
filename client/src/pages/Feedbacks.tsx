@@ -6,7 +6,7 @@ import { FiRefreshCw } from "react-icons/fi";
 import { FaCopy } from "react-icons/fa";
 import { useToast } from "@/hooks/use-toast"
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { UserName } from '@/store/user';
 import { useRecoilValue } from 'recoil';
 const Feedbacks = () => {
@@ -40,6 +40,10 @@ const Feedbacks = () => {
             navigate('/');
         }
     }, [navigate]);
+    const logOut = () => {
+        localStorage.removeItem('token')
+        navigate('/')
+    }
 
     const copyFunction = () =>{
         let value = 'https://yoururl-1de6d-242.com';
@@ -51,9 +55,9 @@ const Feedbacks = () => {
       <div className="min-h-[100vh] max-w-[100vw] bg-black overflow-hidden">
         <nav className='w-[100vw]'>
             <ul className='w-[100vw] py-5 bg-gray-600 flex justify-between items-center px-8'>
-            <li className='text-4xl font-bold text-white'>Logo</li>
-                <li className='text-xl font-bold text-gray-200'>Welcome {!name ? 'User' : name}</li>
-                <Button variant={'secondary'}>Logout</Button>
+            <Link to={'/'} className='text-4xl font-bold text-white'>Logo</Link>
+            <li className='text-xl font-bold text-gray-200'>Welcome {!name ? 'User' : name}</li>
+            <Button variant={'secondary'} onClick={logOut}>Logout</Button>
             </ul>
         </nav>
         <div className="link px-44 pt-10">

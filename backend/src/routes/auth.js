@@ -25,7 +25,7 @@ export const signUp = async (req, res) => {
         const hash = await bcrypt.hash(password, saltRounds);
 
         // Insert new user
-        await users.insertOne({ name: name, email: email, password: hash });
+        const newUser = await users.insertOne({ name: name, email: email, password: hash });
 
         // Generate JWT token
         const token = jwt.sign({ userId: email }, 'your_secret_key'); // Replace 'your_secret_key' with an environment variable
@@ -33,6 +33,8 @@ export const signUp = async (req, res) => {
         // Send success response with token
         return res.json({
             message: "Sign-up done",
+            success: true,
+            user: newUser,
             token: token
         });
     } catch (err) {

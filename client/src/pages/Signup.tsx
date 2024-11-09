@@ -1,6 +1,40 @@
-import { Link } from "react-router-dom"
+import { useToast } from "@/hooks/use-toast"
+import { UserEmail, UserName } from "@/store/user"
+import axios from "axios"
+import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { useRecoilState } from "recoil"
 
 const Signup = () => {
+  const navigate = useNavigate()
+  const {toast} = useToast()
+  // @ts-ignore
+      const [recoilUser, setRecoilUser] = useRecoilState(UserName)
+      // @ts-ignore
+      const [recoilEmail, setRecoilEmail] = useRecoilState(UserEmail)
+  const [userData, setuserData] = useState({
+    name: '',
+    email: '',
+    password: ''
+  })
+  const signupFunction = async(e: any) => {
+    e.preventDefault()
+    try {    
+        const res = await axios.post('http://localhost:4000/api/auth/signup', {name: userData.name, email: userData.email, password: userData.password})
+        if (res.data.success) {
+            const jwt = res.data.token;
+            localStorage.setItem("token", jwt)
+            console.log("res.data is: ", res.data)
+            setRecoilUser(res.data.user.name)
+            setRecoilEmail(res.data.user.email)
+            navigate('/feedback');
+        } else {
+            toast({ variant: 'destructive', description: res.data.message });
+        }
+    } catch (err) {
+        console.log(err)
+    }
+  }
   return (
     <>
         <div className='min-h-[100vh] min-w-[100vw] bg-black flex justify-center items-center'>
@@ -10,18 +44,18 @@ const Signup = () => {
             <form>
               <div className="mb-4">
                 <label htmlFor="name" className="block mb-2 text-sm font-medium">Your Name</label>
-                <input type="name" id="name" className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4" placeholder="John Doe"/>
+                <input value={userData.name} onChange={(e) => setuserData({...userData, name: e.target.value})} type="name" id="name" className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4" placeholder="John Doe"/>
               </div>
               <div className="mb-4">
                 <label htmlFor="email" className="block mb-2 text-sm font-medium">Your email</label>
-                <input type="email" id="email" className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4" placeholder="johndoe@gmail.com"/>
+                <input value={userData.email} onChange={(e) => setuserData({...userData, email: e.target.value})} type="email" id="email" className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4" placeholder="johndoe@gmail.com"/>
               </div>
               <div className="mb-4">
                 <label htmlFor="password" className="block mb-2 text-sm font-medium">Your password</label>
-                <input type="password" id="password" className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4"placeholder="*********" />
+                <input value={userData.password} onChange={(e) => setuserData({...userData, password: e.target.value})} type="password" id="password" className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4"placeholder="*********" />
               </div>
               <div className="flex items-center justify-between mb-4">
-                <button type="submit" className="text-white bg-purple-600 hover:bg-purple-700 focus:ring-2 focus:ring-blue-300 font-medium rounded-lg text-sm py-2.5 px-5 w-full sm:w-auto" > Submit </button>
+                <button onClick={signupFunction} type="submit" className="text-white bg-purple-600 hover:bg-purple-700 focus:ring-2 focus:ring-blue-300 font-medium rounded-lg text-sm py-2.5 px-5 w-full sm:w-auto" > Submit </button>
                 <div className="flex items-center text-sm">
                   <p>Already have a account?</p>
                   <Link to='/login' className="underline cursor-pointer ml-1 hover:text-blue-500">Login</Link>
