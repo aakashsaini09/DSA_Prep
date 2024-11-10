@@ -2,17 +2,17 @@
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import { Label } from "@/components/ui/label"
-import { MdDelete } from "react-icons/md";
 import { FiRefreshCw } from "react-icons/fi";
 import { FaCopy } from "react-icons/fa";
 import { useToast } from "@/hooks/use-toast"
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import noMsgImg from '../assets/img.png'
+import noMsgImg from '../assets/6763390.webp'
 import { UserName } from '@/store/user';
 import { useRecoilValue } from 'recoil';
 import axios from 'axios';
 import Loading from '@/components/Loading';
+import Footer from '@/components/Footer';
 const Feedbacks = () => {
     const name = useRecoilValue(UserName)
     const {toast} = useToast()
@@ -115,9 +115,9 @@ const Feedbacks = () => {
     <>
      {loading && <div className="min-h-[100vh] min-w-[100vw] absolute z-10 bg-gray-900 text-white"><Loading/></div>}
     
-      <div className="min-h-[100vh] max-w-[100vw] bg-black overflow-hidden">
+      <div className="min-h-[100vh] max-w-[100vw] pb-10 bg-black overflow-hidden">
         <nav className='w-[100vw]'>
-            <ul className='w-[100vw] py-5 bg-purple-600 flex justify-between items-center px-8'>
+            <ul className='w-[100vw] py-5 bg-purple-800 flex justify-between items-center px-8'>
             <Link to={'/'} className='text-4xl font-bold text-white'>Logo</Link>
             <li className='text-xl font-bold text-gray-200'>Welcome {!name ? 'User' : name}</li>
             <Button variant={'secondary'} onClick={logOut} className='bg-red-600 text-white hover:bg-red-700'>Logout</Button>
@@ -141,20 +141,21 @@ const Feedbacks = () => {
             </div>
         </div>
         <div className="feedbacks grid grid-cols-2 px-40">
-            {userdata.length === 0 ? <div className='w-full mx-auto my-0 border border-white'>
-              <img src={noMsgImg} className='mx-auto flex items-center w-full' width={700} alt="" />
+            {userdata.length === 0 ? <div className='w-[80vw] mx-auto my-0'>
+              <img src={noMsgImg} className='mx-auto flex items-center' width={300} alt="" />
               <div className='text-4xl font-bold text-white text-center font-mono'>No Messages Yet!!</div>
             </div> : userdata.map((feed: any) => {
                 return <div key={feed._id} className="border border-gray-700 mx-4 my-5 min-h-48 rounded-md flex flex-col justify-center pl-5 min-w-80">
                     <div className='flex justify-between'>
                         <div className="title text-white text-2xl font-semibold mb-6">{feed.title.length > 20 ? `${feed.title.slice(0, 31)}...` : feed.title}</div>
-                        <Button className='text-white mr-3 bg-transparent border border-white hover:bg-transparent ml-2 ' onClick={() => deleteFeed(feed._id)}><MdDelete className='text-4xl text-red-500 font-bold'/></Button>
+                        <Button className='text-white hover:text-red-600 mr-3 bg-transparent border border-white hover:bg-transparent ml-2 hover:border-red-600' onClick={() => deleteFeed(feed._id)}><i className="fa-solid fa-trash "></i></Button>
                     </div>
                     <div className="time font-normal text-gray-400">{formatDate(feed.createdAt)}</div>
                 </div>
             })}
         </div>
       </div>
+      <Footer/>
     </>
   )
 }
