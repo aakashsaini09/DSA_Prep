@@ -16,34 +16,14 @@ const Feedbacks = () => {
     const {toast} = useToast()
     const navigate= useNavigate()
     const [loading, setloading] = useState(false)
-    // const userdata = [
-    //     {
-    //         title: 'Your outfit was amazing today.',
-    //         time: 'Jan 22, 2003 02:44 PM'
-    //     },
-    //     {
-    //         title: 'Your outfit was amazing today.',
-    //         time: 'Oct 22, 2003 02:44 PM'
-    //     },
-    //     {
-    //         title: 'Your outfit was amazing today.',
-    //         time: 'Jun 22, 2003 02:44 PM'
-    //     },
-    //     {
-    //         title: 'Your outfit was amazing today.',
-    //         time: 'Dec 22, 2003 02:44 PM'
-    //     },
-    //     {
-    //         title: 'Your outfit was amazing today.',
-    //         time: 'Feb 12, 2003 02:44 PM'
-    //     },
-    // ]
     const [userdata, setuserdata] = useState<any>([])
     useEffect(() => {
         if (!localStorage.getItem('token')) {
             navigate('/');
         }
     }, [navigate]);
+
+
     const getUserFeeds = async() => {
         setloading(true)
         const token = localStorage.getItem('token')
@@ -68,21 +48,28 @@ const Feedbacks = () => {
               setloading(false)
         }
       }
+
+
     useEffect(() => {
         getUserFeeds()
     }, [])
     
+
+
     const logOut = () => {
         localStorage.removeItem('token')
         localStorage.removeItem('id')
         navigate('/')
     }
 
+
     const copyFunction = () =>{
         let value = 'https://yoururl-1de6d-242.com';
         navigator.clipboard.writeText(value);
         toast({description: "URL copied!!" })
     }
+
+
     // /api/user/deleteuserfeed
     const deleteFeed = async(id: string) => {
       setloading(true)
@@ -96,7 +83,6 @@ const Feedbacks = () => {
               },
             })
             if (res.data.success) {
-              alert('deleted!!')
               setloading(false)
               toast({ variant: 'default', description: 'Message Deleted Successfully!'})
             } else {
@@ -108,6 +94,8 @@ const Feedbacks = () => {
               setloading(false)
         }
     }
+
+
     const formatDate = (dateString: string) => {
       const date = new Date(dateString);
       const day = date.getDate();
@@ -122,10 +110,10 @@ const Feedbacks = () => {
     
       <div className="min-h-[100vh] max-w-[100vw] bg-black overflow-hidden">
         <nav className='w-[100vw]'>
-            <ul className='w-[100vw] py-5 bg-gray-600 flex justify-between items-center px-8'>
+            <ul className='w-[100vw] py-5 bg-purple-600 flex justify-between items-center px-8'>
             <Link to={'/'} className='text-4xl font-bold text-white'>Logo</Link>
             <li className='text-xl font-bold text-gray-200'>Welcome {!name ? 'User' : name}</li>
-            <Button variant={'secondary'} onClick={logOut}>Logout</Button>
+            <Button variant={'secondary'} onClick={logOut} className='bg-red-600 text-white hover:bg-red-700'>Logout</Button>
             </ul>
         </nav>
         <div className="link px-44 pt-10">
@@ -133,7 +121,7 @@ const Feedbacks = () => {
             <p className='text-base text-gray-300'>Copy Your Unique URL and Share with friends</p>
             <div className="w-full flex justify-between items-center bg-gray-950 rounded-lg pr-4">
                 <div className="text-white underline px-2 py-3 rounded-sm text-xl">https://yoururl-1de6d-242.com</div>
-                <Button className='text-base' variant={'secondary'} onClick={copyFunction}>Copy <FaCopy /></Button>
+                <Button className='text-base bg-red-600 hover:bg-red-700 text-white' variant={'secondary'} onClick={copyFunction}>Copy <FaCopy /></Button>
             </div>
             <div className='flex items-center pt-5'>
                 <Switch id='accept-msg'/>
@@ -150,7 +138,7 @@ const Feedbacks = () => {
                 return <div key={feed._id} className="border border-gray-700 mx-4 my-5 min-h-48 rounded-md flex flex-col justify-center pl-5">
                     <div className='flex justify-between'>
                         <div className="title text-white text-3xl font-semibold mb-6">{feed.title}</div>
-                        <Button variant={'destructive'} className='text-white mr-3' onClick={() => deleteFeed(feed._id)}>X</Button>
+                        <Button className='text-white mr-3 bg-red-600 hover:bg-red-700' onClick={() => deleteFeed(feed._id)}>X</Button>
                     </div>
                     <div className="time font-normal text-gray-400">{formatDate(feed.createdAt)}</div>
                 </div>

@@ -5,7 +5,7 @@ const client = new MongoClient("mongodb+srv://aakashsaini948585:jXYSp8aOVcuYZoEB
 
 // ************************************ Add new feed *************************************************
 export const addNewFeed = async(req, res) => {
-    const { title, des, id} = req.body;
+    const { title, des} = req.body;
         await client.connect();
         const database = client.db('feedbacks');
         const feeds = database.collection('feedback');
