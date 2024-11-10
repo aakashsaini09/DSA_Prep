@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import { Label } from "@/components/ui/label"
+import { MdDelete } from "react-icons/md";
 import { FiRefreshCw } from "react-icons/fi";
 import { FaCopy } from "react-icons/fa";
 import { useToast } from "@/hooks/use-toast"
@@ -85,6 +86,7 @@ const Feedbacks = () => {
             if (res.data.success) {
               setloading(false)
               toast({ variant: 'default', description: 'Message Deleted Successfully!'})
+              getUserFeeds()
             } else {
                 toast({ variant: 'destructive', description: res.data.message });
                 setloading(false)
@@ -139,14 +141,14 @@ const Feedbacks = () => {
             </div>
         </div>
         <div className="feedbacks grid grid-cols-2 px-40">
-            {userdata.length === 0 ? <div className='w-full mx-auto my-0'>
-              <img src={noMsgImg} className='mx-auto' width={700} alt="" />
+            {userdata.length === 0 ? <div className='w-full mx-auto my-0 border border-white'>
+              <img src={noMsgImg} className='mx-auto flex items-center w-full' width={700} alt="" />
               <div className='text-4xl font-bold text-white text-center font-mono'>No Messages Yet!!</div>
             </div> : userdata.map((feed: any) => {
-                return <div key={feed._id} className="border border-gray-700 mx-4 my-5 min-h-48 rounded-md flex flex-col justify-center pl-5">
+                return <div key={feed._id} className="border border-gray-700 mx-4 my-5 min-h-48 rounded-md flex flex-col justify-center pl-5 min-w-80">
                     <div className='flex justify-between'>
-                        <div className="title text-white text-3xl font-semibold mb-6">{feed.title}</div>
-                        <Button className='text-white mr-3 bg-red-600 hover:bg-red-700' onClick={() => deleteFeed(feed._id)}>X</Button>
+                        <div className="title text-white text-2xl font-semibold mb-6">{feed.title.length > 20 ? `${feed.title.slice(0, 31)}...` : feed.title}</div>
+                        <Button className='text-white mr-3 bg-transparent border border-white hover:bg-transparent ml-2 ' onClick={() => deleteFeed(feed._id)}><MdDelete className='text-4xl text-red-500 font-bold'/></Button>
                     </div>
                     <div className="time font-normal text-gray-400">{formatDate(feed.createdAt)}</div>
                 </div>
