@@ -7,6 +7,7 @@ import { FaCopy } from "react-icons/fa";
 import { useToast } from "@/hooks/use-toast"
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import noMsgImg from '../assets/img.png'
 import { UserName } from '@/store/user';
 import { useRecoilValue } from 'recoil';
 import axios from 'axios';
@@ -17,6 +18,7 @@ const Feedbacks = () => {
     const navigate= useNavigate()
     const [loading, setloading] = useState(false)
     const [userdata, setuserdata] = useState<any>([])
+    let id = localStorage.getItem('id')
     useEffect(() => {
         if (!localStorage.getItem('token')) {
             navigate('/');
@@ -36,7 +38,6 @@ const Feedbacks = () => {
             })
             if (res.data.success) {
                 setuserdata(res.data.feeds)
-                console.log("userdata is: ", userdata)
                 // console.log(res.data.feeds)
                 setloading(false)
               } else {
@@ -64,8 +65,7 @@ const Feedbacks = () => {
 
 
     const copyFunction = () =>{
-        let value = 'https://yoururl-1de6d-242.com';
-        navigator.clipboard.writeText(value);
+        navigator.clipboard.writeText(userURL);
         toast({description: "URL copied!!" })
     }
 
@@ -104,6 +104,11 @@ const Feedbacks = () => {
   
       return `${day} ${month}, ${year}`;
   };
+  let URL = 'http://localhost:5173/'
+  let endpoint = 'message/'
+
+  const userURL = `${URL}${endpoint}${id}`
+  // http://localhost:5173/message/672efbcc32518b1efa8e28d5
   return (
     <>
      {loading && <div className="min-h-[100vh] min-w-[100vw] absolute z-10 bg-gray-900 text-white"><Loading/></div>}
@@ -120,21 +125,24 @@ const Feedbacks = () => {
             <h1 className='text-5xl text-white font-extrabold py-2'>User Dashboard</h1>
             <p className='text-base text-gray-300'>Copy Your Unique URL and Share with friends</p>
             <div className="w-full flex justify-between items-center bg-gray-950 rounded-lg pr-4">
-                <div className="text-white underline px-2 py-3 rounded-sm text-xl">https://yoururl-1de6d-242.com</div>
-                <Button className='text-base bg-red-600 hover:bg-red-700 text-white' variant={'secondary'} onClick={copyFunction}>Copy <FaCopy /></Button>
+                <div className="text-white underline px-2 py-3 rounded-sm text-xl">{userURL}</div>
+                <Button className='text-base bg-purple-600 hover:bg-purple-700 text-white' variant={'secondary'} onClick={copyFunction}>Copy <FaCopy /></Button>
             </div>
             <div className='flex items-center pt-5'>
                 <Switch id='accept-msg'/>
                 <Label className='text-gray-300 pl-3' htmlFor="accept-msg">Accept Messages: ON</Label>
             </div>
             <div className="py-10">
-                <Button variant="default" size="icon">
+                <Button variant="default" size="icon" onClick={getUserFeeds}>
                     <FiRefreshCw />
                 </Button>
             </div>
         </div>
         <div className="feedbacks grid grid-cols-2 px-40">
-            {userdata.map((feed: any) => {
+            {userdata.length === 0 ? <div className='w-full mx-auto my-0'>
+              <img src={noMsgImg} className='mx-auto' width={700} alt="" />
+              <div className='text-4xl font-bold text-white text-center font-mono'>No Messages Yet!!</div>
+            </div> : userdata.map((feed: any) => {
                 return <div key={feed._id} className="border border-gray-700 mx-4 my-5 min-h-48 rounded-md flex flex-col justify-center pl-5">
                     <div className='flex justify-between'>
                         <div className="title text-white text-3xl font-semibold mb-6">{feed.title}</div>

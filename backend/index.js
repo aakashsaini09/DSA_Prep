@@ -16,7 +16,7 @@ app.post('/api/auth/signup', signUp)
 app.get('/api/auth/getall', getAllUsers)
 
 app.post('/api/user/getdata', getAllUsers)
-app.post('/api/user/addfeed', verifyUser, addNewFeed)
+app.post('/api/user/addfeed/:id', addNewFeed)
 app.post('/api/user/getuserfeed', verifyUser, getUserFeedbacks)
 app.delete('/api/user/deleteuserfeed', verifyUser, deleteUsersFeed)
 

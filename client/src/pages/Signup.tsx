@@ -27,7 +27,8 @@ const Signup = () => {
         if (res.data.success) {
             const jwt = res.data.token;
             localStorage.setItem("token", jwt)
-            console.log("res.data is: ", res.data)
+            localStorage.setItem("id", res.data.user.insertedId)
+
             setRecoilUser(userData.name)
             setRecoilEmail(userData.email)
             navigate('/feedback');
