@@ -107,7 +107,7 @@ const Feedbacks = () => {
   
       return `${day} ${month}, ${year}`;
   };
-  let URL = 'https://anonymous-feedbacks.netlify.app/'
+  let URL = 'https://silent-shout.netlify.app'
   // let URL = 'http://localhost:5173/'
   let endpoint = 'message/'
 
