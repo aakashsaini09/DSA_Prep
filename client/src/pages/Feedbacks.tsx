@@ -32,7 +32,7 @@ const Feedbacks = () => {
         setloading(true)
         const token = localStorage.getItem('token')
         try {    
-            const res = await axios.post('http://localhost:4000/api/user/getuserfeed', { id: localStorage.getItem('id') }, 
+            const res = await axios.post('https://anonymous-feedback-ewej.onrender.com/api/user/getuserfeed', { id: localStorage.getItem('id') }, 
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -77,7 +77,7 @@ const Feedbacks = () => {
       setloading(true)
         const token = localStorage.getItem('token')
         try {    
-            const res = await axios.delete('http://localhost:4000/api/user/deleteuserfeed',  
+            const res = await axios.delete('https://anonymous-feedback-ewej.onrender.com/api/user/deleteuserfeed',  
             {
               headers: {
                 Authorization: `Bearer ${token}`,

@@ -15,7 +15,7 @@ const Message = () => {
     const sendMessage = async () => {
         setloading(true)
         try {  
-            await axios.post(`http://localhost:4000/api/user/addfeed/${id}`, {title: title})
+            await axios.post(`https://anonymous-feedback-ewej.onrender.com/api/user/addfeed/${id}`, {title: title})
             toast({description: "Message Send Successfully" })
             setloading(false)
             settitle("")

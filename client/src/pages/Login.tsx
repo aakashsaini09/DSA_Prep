@@ -22,7 +22,7 @@ const Login = () => {
     e.preventDefault()
     setloading(true)
     try {    
-        const res = await axios.post('http://localhost:4000/api/auth/login', {email: userData.email, password: userData.password})
+        const res = await axios.post('https://anonymous-feedback-ewej.onrender.com/api/auth/login', {email: userData.email, password: userData.password})
         if (res.data.success) {
             const jwt = res.data.token;
             localStorage.setItem("token", jwt)

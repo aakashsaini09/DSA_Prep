@@ -12,7 +12,7 @@ const Landing = () => {
   const getAllusers = async() => {
     setloading(true)
     try {    
-        const res = await axios.get('http://localhost:4000/api/auth/getall')
+        const res = await axios.get('https://anonymous-feedback-ewej.onrender.com/api/auth/getall')
         if (res.data.success) {
           setusers(res.data.users.length)
           console.log(res.data.users.length)
