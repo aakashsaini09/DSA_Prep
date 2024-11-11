@@ -107,7 +107,7 @@ const Feedbacks = () => {
   
       return `${day} ${month}, ${year}`;
   };
-  let URL = 'http://localhost:5173/'
+  let URL = 'https://anonymous-feedback-ewej.onrender.com/'
   let endpoint = 'message/'
 
   const userURL = `${URL}${endpoint}${id}`
