@@ -11,7 +11,9 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  base: '/',
 })
+
 // npx shadcn@latest add toast
 // npx shadcn@latest add label
 // npx shadcn@latest add switch
