@@ -6,7 +6,8 @@ import { FiRefreshCw } from "react-icons/fi";
 import { FaCopy } from "react-icons/fa";
 import { useToast } from "@/hooks/use-toast"
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import logo from '../../public/logo.png'
+import { useNavigate } from 'react-router-dom';
 import noMsgImg from '../assets/6763390.webp'
 import { UserName } from '@/store/user';
 import { useRecoilValue } from 'recoil';
@@ -111,6 +112,16 @@ const Feedbacks = () => {
 
   const userURL = `${URL}${endpoint}${id}`
   // http://localhost:5173/message/672efbcc32518b1efa8e28d5
+  const [selectedFeed, setSelectedFeed] = useState<any | null>(null);
+
+  const openFeed = (feed: any) => {
+    setSelectedFeed(feed);
+  };
+
+  const closeFeed = () => {
+    setSelectedFeed(null);
+  };
+
   return (
     <>
      {loading && <div className="min-h-[100vh] min-w-[100vw] absolute z-10 bg-gray-900 text-white"><Loading/></div>}
@@ -118,7 +129,7 @@ const Feedbacks = () => {
       <div className="min-h-[100vh] max-w-[100vw] pb-10 bg-black overflow-hidden">
         <nav className='w-[100vw]'>
             <ul className='w-[100vw] py-5 bg-purple-800 flex justify-between items-center px-8'>
-            <Link to={'/'} className='text-4xl font-bold text-white'>Logo</Link>
+            <img src={logo} className='h-16 w-16'/>
             <li className='text-xl font-bold text-gray-200'>Welcome {!name ? 'User' : name}</li>
             <Button variant={'secondary'} onClick={logOut} className='bg-red-600 text-white hover:bg-red-700'>Logout</Button>
             </ul>
@@ -144,16 +155,37 @@ const Feedbacks = () => {
             {userdata.length === 0 ? <div className='w-[80vw] mx-auto my-0'>
               <img src={noMsgImg} className='mx-auto flex items-center' width={300} alt="" />
               <div className='text-4xl font-bold text-white text-center font-mono'>No Messages Yet!!</div>
-            </div> : userdata.map((feed: any) => {
+            </div> : userdata.slice().reverse().map((feed: any) => {
                 return <div key={feed._id} className="border border-gray-700 mx-4 my-5 min-h-48 rounded-md flex flex-col justify-center pl-5 min-w-80">
                     <div className='flex justify-between'>
-                        <div className="title text-white text-2xl font-semibold mb-6">{feed.title.length > 20 ? `${feed.title.slice(0, 31)}...` : feed.title}</div>
+                        <div onClick={() => openFeed(feed)} className="cursor-pointer text-white text-2xl font-semibold mb-6">{feed.title.length > 20 ? `${feed.title.slice(0, 31)}...` : feed.title}</div>
                         <Button className='text-white hover:text-red-600 mr-3 bg-transparent border border-white hover:bg-transparent ml-2 hover:border-red-600' onClick={() => deleteFeed(feed._id)}><i className="fa-solid fa-trash "></i></Button>
                     </div>
                     <div className="time font-normal text-gray-400">{formatDate(feed.createdAt)}</div>
                 </div>
             })}
+
+            {/* Exp code */}
+             {/* Full-screen modal for selected card */}
+      {selectedFeed && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-2xl z-50">
+          <div className="bg-slate-900 rounded-lg p-8 w-[70vw] h-[70vh] text-white relative overflow-y-auto">
+            <button
+              onClick={closeFeed}
+              className="absolute top-3 right-3 text-3xl text-white hover:text-red-600"
+            >
+              &times;
+            </button>
+            <h2 className="text-3xl font-bold mb-4">{selectedFeed.title}</h2>
+            <p className="text-lg mb-6">{selectedFeed.description}</p>
+            <div className="text-gray-400 font-normal">
+              {formatDate(selectedFeed.createdAt)}
+            </div>
+          </div>
         </div>
+      )}
+        </div>
+        {/* <Link className='text-white w-full flex mx-auto justify-center items-center py-4 text-center' to={'http://localhost:5173/message/672efbcc32518b1efa8e28d5'}>FeedBack for Developer</Link> */}
       </div>
       <Footer/>
     </>
