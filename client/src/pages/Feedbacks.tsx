@@ -107,7 +107,7 @@ const Feedbacks = () => {
   
       return `${day} ${month}, ${year}`;
   };
-  let URL = 'https://anonymous-feedback-ewej.onrender.com/'
+  let URL = 'https://anonymous-feedbacks.netlify.app/'
   let endpoint = 'message/'
 
   const userURL = `${URL}${endpoint}${id}`
