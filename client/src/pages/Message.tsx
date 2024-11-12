@@ -9,13 +9,14 @@ import { Link } from "react-router-dom";
 
 const Message = () => {
     let { id } = useParams()
+    const BackEndURL = import.meta.env.REACT_APP_BACKEND_URL
     const {toast} = useToast()
     const [loading, setloading] = useState(false)
     const [title, settitle] = useState('')
     const sendMessage = async () => {
         setloading(true)
         try {  
-            await axios.post(`https://anonymous-feedback-ewej.onrender.com/api/user/addfeed/${id}`, {title: title})
+            await axios.post(`${BackEndURL}/api/user/addfeed/${id}`, {title: title})
             toast({description: "Message Send Successfully" })
             setloading(false)
             settitle("")

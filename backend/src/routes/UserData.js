@@ -1,6 +1,8 @@
 import { MongoClient } from "mongodb";
 
 import { ObjectId } from "mongodb";
+// import { UserDataSchema } from "../Schema/User";
+console.log(process.env.DB_URL)
 const client = new MongoClient("mongodb+srv://aakashsaini948585:jXYSp8aOVcuYZoEB@cluster0.abmbj.mongodb.net/")
 
 // ************************************ Add new feed *************************************************
@@ -11,6 +13,8 @@ export const addNewFeed = async(req, res) => {
         const database = client.db('feedbacks');
         const feeds = database.collection('feedback');
         try { 
+            // UserDataSchema.parse(req.body);
+
             const userFeeds = await feeds.insertOne({ 
                 autherId: id,
                 title: title,
@@ -25,7 +29,12 @@ export const addNewFeed = async(req, res) => {
                 feeds: userFeeds
             })
         }catch (error) {
-            console.error("Insert error:", error);
+            // if (error instanceof z.ZodError) {
+            //     return res.status(400).json({ 
+            //         message: 'Validation Error: ' + error.errors.map(e => e.message).join(', '), 
+            //         success: false 
+            //     });
+            // }
             return res.json({ message: 'Server Error. Something went wrong!', success: false, error: error });
         }
 }

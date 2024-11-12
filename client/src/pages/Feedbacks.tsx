@@ -6,7 +6,6 @@ import { FiRefreshCw } from "react-icons/fi";
 import { FaCopy } from "react-icons/fa";
 import { useToast } from "@/hooks/use-toast"
 import { useEffect, useState } from 'react';
-import logo from '../../public/logo.png'
 import { useNavigate } from 'react-router-dom';
 import noMsgImg from '../assets/6763390.webp'
 import { UserName } from '@/store/user';
@@ -15,6 +14,7 @@ import axios from 'axios';
 import Loading from '@/components/Loading';
 import Footer from '@/components/Footer';
 const Feedbacks = () => {
+  const BackEndURL = import.meta.env.REACT_APP_BACKEND_URL
     const name = useRecoilValue(UserName)
     const {toast} = useToast()
     const navigate= useNavigate()
@@ -32,7 +32,7 @@ const Feedbacks = () => {
         setloading(true)
         const token = localStorage.getItem('token')
         try {    
-            const res = await axios.post('https://anonymous-feedback-ewej.onrender.com/api/user/getuserfeed', { id: localStorage.getItem('id') }, 
+            const res = await axios.post(`${BackEndURL}/api/user/getuserfeed`, { id: localStorage.getItem('id') }, 
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -53,9 +53,9 @@ const Feedbacks = () => {
       }
 
 
-    useEffect(() => {
-        getUserFeeds()
-    }, [])
+      useEffect(() => {
+          getUserFeeds()
+      }, [])
     
 
 
@@ -66,24 +66,20 @@ const Feedbacks = () => {
     }
 
 
-    const copyFunction = () =>{
-        navigator.clipboard.writeText(userURL);
-        toast({description: "URL copied!!" })
-    }
-
-
+    
+    
     // /api/user/deleteuserfeed
     const deleteFeed = async(id: string) => {
       setloading(true)
-        const token = localStorage.getItem('token')
-        try {    
-            const res = await axios.delete('https://anonymous-feedback-ewej.onrender.com/api/user/deleteuserfeed',  
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                id: id
-              },
-            })
+      const token = localStorage.getItem('token')
+      try {    
+        const res = await axios.delete(`${BackEndURL}/api/user/deleteuserfeed`,  
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              id: id
+            },
+          })
             if (res.data.success) {
               setloading(false)
               toast({ variant: 'default', description: 'Message Deleted Successfully!'})
@@ -95,25 +91,26 @@ const Feedbacks = () => {
             } catch (err) {
               console.log(err)
               setloading(false)
-        }
-    }
+            }
+          }
+          
+          
+          const formatDate = (dateString: string) => {
+            const date = new Date(dateString);
+            const day = date.getDate();
+            const month = date.toLocaleString("en-GB", { month: "short" });
+            const year = date.getFullYear();
+            
+            return `${day} ${month}, ${year}`;
+          };
+          let FRONTENDURL = import.meta.env.REACT_APP_FRONTEND_URL
+          const userURL = `${FRONTENDURL}/message/${id}`
 
-
-    const formatDate = (dateString: string) => {
-      const date = new Date(dateString);
-      const day = date.getDate();
-      const month = date.toLocaleString("en-GB", { month: "short" });
-      const year = date.getFullYear();
-  
-      return `${day} ${month}, ${year}`;
-  };
-  let URL = 'https://silent-shout.netlify.app'
-  // let URL = 'http://localhost:5173/'
-  let endpoint = 'message/'
-
-  const userURL = `${URL}${endpoint}${id}`
-  // http://localhost:5173/message/672efbcc32518b1efa8e28d5
-  const [selectedFeed, setSelectedFeed] = useState<any | null>(null);
+          const copyFunction = () =>{
+              navigator.clipboard.writeText(userURL);
+              toast({description: "URL copied!!" })
+          }
+          const [selectedFeed, setSelectedFeed] = useState<any | null>(null);
 
   const openFeed = (feed: any) => {
     setSelectedFeed(feed);
@@ -125,12 +122,13 @@ const Feedbacks = () => {
 
   return (
     <>
-     {loading && <div className="min-h-[100vh] min-w-[100vw] absolute z-10 bg-gray-900 text-white"><Loading/></div>}
+     {loading && <div className="min-h-[100vh] w-[100vw] overflow-hidden fixed z-10 bg-gray-900 text-white"><Loading/></div>}
     
       <div className="min-h-[100vh] max-w-[100vw] pb-10 bg-black overflow-hidden">
         <nav className='w-[100vw]'>
             <ul className='w-[100vw] py-5 bg-purple-800 flex justify-between items-center px-8'>
-            <img src={logo} className='h-16 w-16'/>
+            {/* <img src={logo} className='h-16 w-16'/> */}
+            <a href="/"className="flex text-3xl text-white font-extrabold mb-4 md:mb-0 " >SILENT SHOUT </a>
             <li className='text-xl font-bold text-gray-200'>Welcome {!name ? 'User' : name}</li>
             <Button variant={'secondary'} onClick={logOut} className='bg-red-600 text-white hover:bg-red-700'>Logout</Button>
             </ul>
@@ -186,8 +184,7 @@ const Feedbacks = () => {
         </div>
       )}
         </div>
-        {/* <Link className='text-white w-full flex mx-auto justify-center items-center py-4 text-center' to={'http://localhost:5173/message/672efbcc32518b1efa8e28d5'}>FeedBack for Developer</Link> */}
-      </div>
+       </div>
       <Footer/>
     </>
   )

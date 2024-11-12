@@ -7,6 +7,7 @@ import { useRecoilState } from "recoil"
 import Loading from "@/components/Loading"
 
 const Signup = () => {
+  const BackEndURL = import.meta.env.REACT_APP_BACKEND_URL
   const navigate = useNavigate()
   const {toast} = useToast()
   // @ts-ignore
@@ -23,7 +24,7 @@ const Signup = () => {
     e.preventDefault()
     setloading(true)
     try {    
-        const res = await axios.post('https://anonymous-feedback-ewej.onrender.com/api/auth/signup', {name: userData.name, email: userData.email, password: userData.password})
+        const res = await axios.post(`${BackEndURL}/api/auth/signup`, {name: userData.name, email: userData.email, password: userData.password})
         if (res.data.success) {
             const jwt = res.data.token;
             localStorage.setItem("token", jwt)

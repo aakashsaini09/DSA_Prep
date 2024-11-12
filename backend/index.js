@@ -21,11 +21,5 @@ app.post('/api/user/getuserfeed', verifyUser, getUserFeedbacks)
 app.delete('/api/user/deleteuserfeed', verifyUser, deleteUsersFeed)
 
 app.listen(PORT, () => {
-    // const dbConnect = mongoose.connect("mongodb+srv://aakashsaini948585:jXYSp8aOVcuYZoEB@cluster0.abmbj.mongodb.net/")
-    // if(dbConnect){
-    //     console.log("db Connected")
-    // }else{
-    //     console.log("db not Connected")
-    // }
     console.log(`Server is running on ${PORT} port`);
 })

@@ -1,12 +1,14 @@
 import Loading from '@/components/Loading'
 import { useToast } from '@/hooks/use-toast'
 import { UserEmail, UserName } from '@/store/user'
+import '../components/Styling.css'
 import axios from 'axios'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 
 const Login = () => {
+  const BackEndURL = import.meta.env.REACT_APP_BACKEND_URL
     const {toast} = useToast()
     const navigate = useNavigate()
     const [loading, setloading] = useState(false)
@@ -22,7 +24,7 @@ const Login = () => {
     e.preventDefault()
     setloading(true)
     try {    
-        const res = await axios.post('https://anonymous-feedback-ewej.onrender.com/api/auth/login', {email: userData.email, password: userData.password})
+        const res = await axios.post(`${BackEndURL}/api/auth/login`, {email: userData.email, password: userData.password})
         if (res.data.success) {
             const jwt = res.data.token;
             localStorage.setItem("token", jwt)
@@ -35,6 +37,7 @@ const Login = () => {
 
           } else {
             toast({ variant: 'destructive', description: res.data.message });
+            console.log(res)
             setloading(false)
           }
         } catch (err) {
