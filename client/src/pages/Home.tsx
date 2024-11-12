@@ -17,7 +17,6 @@ const Landing = () => {
   };
   const [title, settitle] = useState('')
   const BackEndURL = import.meta.env.VITE_APP_BACKEND_URL
-  console.log("backend url is: ", BackEndURL)
   // const getAllusers = async() => {
   //   setloading(true)
   //   try {    
