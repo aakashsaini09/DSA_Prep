@@ -13,6 +13,7 @@ import { UserName } from '@/store/user';
 import { useRecoilValue } from 'recoil';
 import axios from 'axios';
 import Loading from '@/components/Loading';
+import '../App.css'
 import Footer from '@/components/Footer';
 const Feedbacks = () => {
   const BackEndURL = import.meta.env.REACT_APP_BACKEND_URL
@@ -115,10 +116,12 @@ const Feedbacks = () => {
 
   const openFeed = (feed: any) => {
     setSelectedFeed(feed);
+    document.body.classList.add('no-scroll');
   };
 
   const closeFeed = () => {
     setSelectedFeed(null);
+    document.body.classList.remove('no-scroll');
   };
 
   return (
@@ -138,7 +141,7 @@ const Feedbacks = () => {
         <div className="link px-44 pt-24">
             <h1 className='text-5xl text-white font-extrabold py-2'>User Dashboard</h1>
             <p className='text-base text-gray-300'>Copy Your Unique URL and Share with friends</p>
-            <div className="w-full flex justify-between items-center bg-gray-950 rounded-lg pr-4">
+            <div className="w-full flex justify-between items-center bg-gray-950 rounded-lg pr-4 mb-10">
                 <div className="text-white underline px-2 py-3 rounded-sm text-xl">{userURL}</div>
                 <Button className='text-base bg-purple-600 hover:bg-purple-700 text-white' variant={'secondary'} onClick={copyFunction}>Copy <FaCopy /></Button>
             </div>
@@ -153,7 +156,7 @@ const Feedbacks = () => {
             </div>
         </div>
         <div className="feedbacks grid grid-cols-2 px-40">
-            {userdata.length === 0 ? <div className='w-[80vw] mx-auto my-0'>
+            {userdata.length === 0 ? <div className='w-[80vw] mx-auto my-0 mb-60'>
               <img src={noMsgImg} className='mx-auto flex items-center' width={300} alt="" />
               <div className='text-4xl font-bold text-white text-center font-mono'>No Messages Yet!!</div>
             </div> : userdata.slice().reverse().map((feed: any) => {
@@ -165,26 +168,19 @@ const Feedbacks = () => {
                     <div className="time font-normal text-gray-400">{formatDate(feed.createdAt)}</div>
                 </div>
             })}
-
-            {/* Exp code */}
-             {/* Full-screen modal for selected card */}
       {selectedFeed && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-2xl z-50">
-          <div className="bg-slate-900 rounded-lg p-8 w-[70vw] h-[70vh] text-white relative overflow-y-auto">
-            <button
-              onClick={closeFeed}
-              className="absolute top-3 right-3 text-3xl text-white hover:text-red-600"
-            >
-              &times;
-            </button>
+    <div className={`fixed inset-0 flex items-center justify-center z-50 transition-opacity duration-300 ${ selectedFeed ? 'opacity-100' : 'opacity-0'} bg-transparent bg-opacity-70 backdrop-blur-md`} >
+        <div className="bg-[#171717] rounded-lg p-8 w-[50vw] h-[55vh] text-white relative overflow-y-auto transition-transform shadow-2xl transform duration-300 ease-out scale-100">
+            <button onClick={closeFeed} className="absolute top-3 right-3 text-5xl text-white hover:text-red-600"> &times;</button>
             <h2 className="text-3xl font-bold mb-4">{selectedFeed.title}</h2>
             <p className="text-lg mb-6">{selectedFeed.description}</p>
             <div className="text-gray-400 font-normal">
-              {formatDate(selectedFeed.createdAt)}
+                {formatDate(selectedFeed.createdAt)}
             </div>
-          </div>
         </div>
-      )}
+    </div>
+)}
+
         </div>
        </div>
       <Footer/>
