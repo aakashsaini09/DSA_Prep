@@ -6,7 +6,7 @@ import { defineConfig } from "vite"
 
 export default defineConfig({
   plugins: [react(), envCompatible()],
-  envPrefix: "REACT_APP_",
+  envPrefix: "VITE_APP_",
   resolve: {
     alias: {
       // @ts-ignore
