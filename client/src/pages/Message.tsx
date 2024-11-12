@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 const Message = () => {
     let { id } = useParams()
-    const BackEndURL = import.meta.env.REACT_APP_BACKEND_URL
+    const BackEndURL = import.meta.env.VITE_APP_BACKEND_URL
     const {toast} = useToast()
     const [loading, setloading] = useState(false)
     const [title, settitle] = useState('')

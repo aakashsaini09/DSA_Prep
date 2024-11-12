@@ -7,7 +7,7 @@ import { useRecoilState } from "recoil"
 import Loading from "@/components/Loading"
 
 const Signup = () => {
-  const BackEndURL = import.meta.env.REACT_APP_BACKEND_URL
+  const BackEndURL = import.meta.env.VITE_APP_BACKEND_URL
   const navigate = useNavigate()
   const {toast} = useToast()
   // @ts-ignore

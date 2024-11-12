@@ -16,7 +16,7 @@ import Loading from '@/components/Loading';
 import '../App.css'
 import Footer from '@/components/Footer';
 const Feedbacks = () => {
-  const BackEndURL = import.meta.env.REACT_APP_BACKEND_URL
+  const BackEndURL = import.meta.env.VITE_APP_BACKEND_URL
     const name = useRecoilValue(UserName)
     const {toast} = useToast()
     const navigate= useNavigate()
@@ -105,7 +105,7 @@ const Feedbacks = () => {
             
             return `${day} ${month}, ${year}`;
           };
-          let FRONTENDURL = import.meta.env.REACT_APP_FRONTEND_URL
+          let FRONTENDURL = import.meta.env.VITE_APP_FRONTEND_URL
           const userURL = `${FRONTENDURL}/message/${id}`
 
           const copyFunction = () =>{

@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 
 const Login = () => {
-  const BackEndURL = import.meta.env.REACT_APP_BACKEND_URL
+  const BackEndURL = import.meta.env.VITE_APP_BACKEND_URL
     const {toast} = useToast()
     const navigate = useNavigate()
     const [loading, setloading] = useState(false)

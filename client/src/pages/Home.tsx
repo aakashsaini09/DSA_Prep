@@ -16,7 +16,7 @@ const Landing = () => {
     toast({description: "Link copied!"})
   };
   const [title, settitle] = useState('')
-  const BackEndURL = import.meta.env.REACT_APP_BACKEND_URL
+  const BackEndURL = import.meta.env.VITE_APP_BACKEND_URL
   // const getAllusers = async() => {
   //   setloading(true)
   //   try {    
