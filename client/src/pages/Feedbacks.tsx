@@ -6,6 +6,7 @@ import { FiRefreshCw } from "react-icons/fi";
 import { FaCopy } from "react-icons/fa";
 import { useToast } from "@/hooks/use-toast"
 import { useEffect, useState } from 'react';
+import '../components/Styling.css'
 import { useNavigate } from 'react-router-dom';
 import noMsgImg from '../assets/6763390.webp'
 import { UserName } from '@/store/user';
@@ -125,15 +126,16 @@ const Feedbacks = () => {
      {loading && <div className="min-h-[100vh] w-[100vw] overflow-hidden fixed z-10 bg-gray-900 text-white"><Loading/></div>}
     
       <div className="min-h-[100vh] max-w-[100vw] pb-10 bg-black overflow-hidden">
-        <nav className='w-[100vw]'>
-            <ul className='w-[100vw] py-5 bg-purple-800 flex justify-between items-center px-8'>
-            {/* <img src={logo} className='h-16 w-16'/> */}
+      <header className="fixed top-0 w-full clearNav z-50">
+      <nav className="max-w-full mx-auto w-full flex flex-wrap p-5 px-32 flex-col md:flex-row">
+        <ul className="flex w-full items-center justify-between p-3 md:p-1">
             <a href="/"className="flex text-3xl text-white font-extrabold mb-4 md:mb-0 " >SILENT SHOUT </a>
             <li className='text-xl font-bold text-gray-200'>Welcome {!name ? 'User' : name}</li>
-            <Button variant={'secondary'} onClick={logOut} className='bg-red-600 text-white hover:bg-red-700'>Logout</Button>
-            </ul>
+            <Button variant={'secondary'} onClick={logOut} className='bg-white hover:bg-gray-300 text-black '>Logout<i className="fa-solid fa-right-from-bracket ml-2"></i></Button>
+          </ul>
         </nav>
-        <div className="link px-44 pt-10">
+        </header>
+        <div className="link px-44 pt-24">
             <h1 className='text-5xl text-white font-extrabold py-2'>User Dashboard</h1>
             <p className='text-base text-gray-300'>Copy Your Unique URL and Share with friends</p>
             <div className="w-full flex justify-between items-center bg-gray-950 rounded-lg pr-4">

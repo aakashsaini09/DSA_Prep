@@ -59,7 +59,6 @@ const Landing = () => {
     setloading(true)
     const res = await axios.get('https://api.github.com/repositories/670952279')
     setstar(res.data.stargazers_count)
-    console.log("res.data is: ", res.data.stargazers_count)
     setloading(false)
 }
 // https://silent-shout.netlify.appmessage/672efbcc32518b1efa8e28d5
