@@ -11,9 +11,12 @@ app.post('/api/auth/signup', (c) => {
 app.get('/api/auth/getall', (c) => {
   return c.text('Hello Hono!')
 })
-
+// supabase Password
 // tkUABhJrAOtm2HDs
+// supabase Conn-String
 // postgresql://postgres.licespwzzrnfuqjeajtt:tkUABhJrAOtm2HDs@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+// Accelrate Conn-String
+// DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiNDQ2NGRmZTctODQwMi00N2ZlLTkwNTQtMDY1ZjdlODJlNzdlIiwidGVuYW50X2lkIjoiZjJlN2IyMDM3Y2ExMzdjYmYzOGVkMTg5M2YyNDQ0NTk4YjY3MmU1YTQ4YWI4ZGI0MzBiZGYyN2Q2NWIxNWRiOSIsImludGVybmFsX3NlY3JldCI6IjUxMTNjMWYxLTQyMWQtNDM5OC05Yjg4LWYxOGRhZDQwYjcxMSJ9.Tid2buM1bhmraD2e4ntr6Z3pGNeWJk9_OlIgh69uiCQ"
 // ************************************userdata*********************************
 app.get('/api/user/getdata', (c) => {
   return c.text('Hello Hono!')
