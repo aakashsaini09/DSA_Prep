@@ -13,8 +13,7 @@ const app = new Hono<{
 	}
 }>();
 
-app.route('/api/auth/user', userRoute)
-app.route('/api/auth/user', userRoute)
+app.route('/api/auth/user', userRoute) // signup, login, getall
 
 
 app.route('/api/auth/feed', feedRoute)
