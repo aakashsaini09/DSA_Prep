@@ -34,7 +34,8 @@ userRoute.post('/login', async(c) => {
     }, c.env.JWT_SEC)
     return c.json({
       message: "signin Success",
-      user: user
+      user: user,
+      jwt: jwt
     })
   } catch (err) {
     c.status(411);

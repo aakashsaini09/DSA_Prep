@@ -6,20 +6,30 @@ export const feedRoute = new Hono<{
     Bindings: {
 	DATABASE_URL: string,
     JWT_SEC: string
-	}
+	},
+    Variables: {
+        userId: string
+    }
 }>()
 feedRoute.use('/*', async(c, next) => {
-    const authHeader = c.req.header('authorization')
-    const token = authHeader && authHeader.split(' ')[1] || "";
-    const user = await verify(token, c.env.JWT_SEC)
-    if(user){
-        c.set("userId", user.id)
-        await next()
-    }else{
+    const token = c.req.header('authorization') || ''
+    try {
+        const user = await verify(token, c.env.JWT_SEC)
+        if(user.id){
+            c.set("userId", user.id as string)
+            await next()
+        }else{
+            c.status(403)
+            return c.json({
+                message: "You are not looged in!"
+            })
+        }
+    } catch (error) {
+        console.log("error is: ", error)
         c.status(403)
-        return c.json({
-            message: "You are not looged in!"
-        })
+            return c.json({
+                message: "You are not looged in!"
+            })
     }
 })
 
