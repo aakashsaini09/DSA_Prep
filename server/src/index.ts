@@ -4,19 +4,18 @@ import { withAccelerate } from '@prisma/extension-accelerate'
 import { decode, verify, sign } from 'hono/jwt';
 import { userRoute } from './routes/user';
 import { feedRoute } from './routes/feed';
-// const app = new Hono()
+import { cors } from 'hono/cors';
 // ************************************auth*********************************
 const app = new Hono<{
-	Bindings: {
-		DATABASE_URL: string,
+  Bindings: {
+    DATABASE_URL: string,
     JWT_SEC: string
 	}
 }>();
 
+app.use('/*', cors())
 app.route('/api/auth/user', userRoute) // signup, login, getall
-
-
-app.route('/api/auth/feed', feedRoute)
+app.route('/api/auth/feed', feedRoute) // delete, add, getuser's
 
 
 app.get('/api/auth/getall', (c) => {

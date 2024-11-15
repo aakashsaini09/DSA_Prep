@@ -28,13 +28,11 @@ const Feedbacks = () => {
             navigate('/');
         }
     }, [navigate]);
-
-
     const getUserFeeds = async() => {
         setloading(true)
         const token = localStorage.getItem('token')
         try {    
-            const res = await axios.post(`${BackEndURL}/api/user/getuserfeed`, { id: localStorage.getItem('id') }, 
+            const res = await axios.post(`${BackEndURL}/api/auth/feed/getuserfeed`, { id: localStorage.getItem('id') }, 
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -75,7 +73,7 @@ const Feedbacks = () => {
       setloading(true)
       const token = localStorage.getItem('token')
       try {    
-        const res = await axios.delete(`${BackEndURL}/api/user/deleteuserfeed`,  
+        const res = await axios.delete(`${BackEndURL}/api/auth/feed/deleteuserfeed`,  
           {
             headers: {
               Authorization: `Bearer ${token}`,

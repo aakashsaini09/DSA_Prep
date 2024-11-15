@@ -39,7 +39,7 @@ const Landing = () => {
     let id = "672efbcc32518b1efa8e28d5"
     setloading(true)
     try {  
-        await axios.post(`${BackEndURL}/api/user/addfeed/${id}`, {title: title})
+        await axios.post(`${BackEndURL}/api/auth/user/addfeed/${id}`, {title: title})
         toast({description: "Message Send Successfully" })
         setloading(false)
         settitle("")

@@ -97,3 +97,31 @@ userRoute.get('/getall', async(c) => {
 })
 
 
+userRoute.post('/addfeed/:id', async(c) =>{
+  const body = await c.req.json()
+  const id = c.req.param('id').toString()
+  const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate())
+
+  const feed = await prisma.feedbacks.create({
+      data:{
+          title: body.title,
+          authorId: parseInt(id, 10),
+          date: new Date().toISOString()
+      }
+  })
+  if(!feed) {
+      return c.json({
+          message: "Server Error",
+          success: false
+      });
+  }
+  
+  return c.json({
+      message: "Feed Added successfully",
+      success: true,
+      feed: feed
+  });
+})
+
