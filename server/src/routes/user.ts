@@ -71,8 +71,10 @@ userRoute.post('/signup', async(c) => {
       token: jwt
     })
   } catch (err) {
+    console.log(err)
     c.status(411);
     return c.json({
+      error: err,
       message: "User Already exist",
       success: false
     })
