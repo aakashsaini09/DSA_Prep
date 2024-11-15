@@ -1,18 +1,26 @@
 import { Hono } from 'hono'
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
-import { decode, verify, sign } from 'hono/jwt';
+import { decode, verify } from 'hono/jwt';
 export const feedRoute = new Hono<{
     Bindings: {
 	DATABASE_URL: string,
     JWT_SEC: string
 	}
 }>()
-// app.post('/api/user/addfeed/:id', addNewFeed)
-// app.post('/api/user/getuserfeed', verifyUser, getUserFeedbacks)
-// app.delete('/api/user/deleteuserfeed', verifyUser, deleteUsersFeed)
 feedRoute.use('/*', async(c, next) => {
-    await next()
+    const authHeader = c.req.header('authorization')
+    const token = authHeader && authHeader.split(' ')[1] || "";
+    const user = await verify(token, c.env.JWT_SEC)
+    if(user){
+        c.set("userId", user.id)
+        await next()
+    }else{
+        c.status(403)
+        return c.json({
+            message: "You are not looged in!"
+        })
+    }
 })
 
 feedRoute.post('/addfeed/:id', async(c) =>{
@@ -109,3 +117,23 @@ feedRoute.delete('/deleteuserfeed', async(c) =>{
     }
     
 })
+
+
+/*
+export const verifyUser = async(req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    // console.log("Header is: ", req.headers) 
+    if (!token) {
+        return res.status(401).json({ message: 'Access denied. No token provided.'});
+    }
+    try {
+        const decoded = jwt.verify(token, mySecretText);
+        req.user = decoded;
+        next();
+    } catch (err) {
+        console.log(err)
+        return res.status(403).json({ message: 'Invalid token.', success: false, token: token, error: err });
+    }
+}
+*/
