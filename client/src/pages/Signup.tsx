@@ -28,8 +28,7 @@ const Signup = () => {
         if (res.data.success) {
             const jwt = res.data.token;
             localStorage.setItem("token", jwt)
-            localStorage.setItem("id", res.data.user.insertedId)
-
+            localStorage.setItem("id", res.data.user.id)
             setRecoilUser(userData.name)
             setRecoilEmail(userData.email)
             navigate('/feedback');
@@ -40,11 +39,20 @@ const Signup = () => {
             })
             setloading(false)
           } else {
+            console.log("res.data is: ", res)
             toast({ variant: 'destructive', description: res.data.message });
             setloading(false)
-        }
-    } catch (err) {
-        console.log(err)
+          }
+        } catch (err) {
+          console.log(err)
+          toast({ variant: 'destructive', description: "User Already Exist"});
+          setuserData({
+            name: "",
+            password: "",
+            email: ""
+          })
+        setloading(false)
+
     }
   }
   

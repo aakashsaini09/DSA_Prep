@@ -47,8 +47,9 @@ feedRoute.post('/getuserfeed', async(c) =>{
         })
         if(!feeds) {
             return c.json({
-                message: "Server Error",
-                success: false
+                message: "Server Error!!",
+                success: false,
+                feeds: feeds
             });
         }
         

@@ -1,4 +1,3 @@
-"use client"
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import { Label } from "@/components/ui/label"
@@ -32,12 +31,14 @@ const Feedbacks = () => {
         setloading(true)
         const token = localStorage.getItem('token')
         try {    
+          // api/auth/feed/getuserfeed
             const res = await axios.post(`${BackEndURL}/api/auth/feed/getuserfeed`, { id: localStorage.getItem('id') }, 
             {
               headers: {
-                Authorization: `Bearer ${token}`,
-              },
+                Authorization: token
+              }
             })
+            console.log("response is: ", res)
             if (res.data.success) {
                 setuserdata(res.data.feeds)
                 // console.log(res.data.feeds)

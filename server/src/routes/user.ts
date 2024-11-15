@@ -26,6 +26,7 @@ userRoute.post('/login', async(c) => {
     if(!user){
       c.status(403);
       return c.json({
+        success: false,
         message: "Incorrect Credentials"
       })
     }
@@ -33,7 +34,8 @@ userRoute.post('/login', async(c) => {
       id: user.id
     }, c.env.JWT_SEC)
     return c.json({
-      message: "signin Success",
+      success: true,
+      message: "signin Success!!",
       user: user,
       jwt: jwt
     })
@@ -62,10 +64,18 @@ userRoute.post('/signup', async(c) => {
     const jwt = await sign({
       id: user.id
     }, c.env.JWT_SEC)
-    return c.text('Sign-up Successfully!')
+    return c.json({
+      message: 'Sign-up Successfully!',
+      success: true,
+      user: user,
+      token: jwt
+    })
   } catch (err) {
     c.status(411);
-    return c.text("Invalid Credentials")
+    return c.json({
+      message: "User Already exist",
+      success: false
+    })
   }
 })
 

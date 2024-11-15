@@ -26,11 +26,11 @@ const Login = () => {
     try {    
         const res = await axios.post(`${BackEndURL}/api/auth/user/login`, {email: userData.email, password: userData.password})
         if (res.data.success) {
-            const jwt = res.data.token;
+            const jwt = res.data.jwt;
             localStorage.setItem("token", jwt)
             setRecoilUser(res.data.user.name)
             setRecoilEmail(res.data.user.email)
-            const id = res.data.user._id
+            const id = res.data.user.id
             localStorage.setItem("id", id)
             navigate('/feedback');
             setloading(false)
@@ -41,6 +41,11 @@ const Login = () => {
             setloading(false)
           }
         } catch (err) {
+          toast({ variant: 'destructive', description: "Incorrect Credentials" });
+          setuserData({
+            email: "",
+            password: ""
+          })
           console.log(err)
           setloading(false)
     }
